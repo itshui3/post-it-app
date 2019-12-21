@@ -1,23 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
+//React
+import React, { useState } from 'react';
+//Routing
+import { useHistory } from 'react-router-dom'
+import { axiosWithAuth } from './helpers/axiosWithAuth'
+
+
 import './App.css';
 
 function App() {
+  const history = useHistory()
+  const [loginInput, setLoginInput] = useState({
+    username: '',
+    password: ''
+  })
+
+  const handleSubmit = ev => {
+    ev.preventDefault()
+    // axiosWithAuth().post('/', loginInput)
+    //   .then( res => {
+    //     localStorage.setItem('token', res.dataObject.token)
+
+    //   })
+    //   .catch( res => {
+
+    //   })
+    history.push('/postIt')
+  }
+
+  const handleInput = ev => {
+    setLoginInput({ ...loginInput, [ev.target.name]: ev.target.value ]})
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Welcome to Post It!</h1>
+        <p>It's an app that lets you store, edit, delete, and post strings to different api and retrieve/store responses!</p>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            placeholder='Username'
+            name='username'
+            value={loginInput.username}
+            onChange={handleInput}
+          />
+          <input
+            placeholder='Password'
+            type='password'
+            name='password'
+            value={loginInput.password}
+            onChange={handleInput}
+          />
+          <button type='submit'>Login</button>
+
+        </form>
       </header>
     </div>
   );
